@@ -1,25 +1,5 @@
 import { combineReducers } from "redux"
-import { getImageReducer } from "./reducers/imageReducers"
-import { fileGetReducer, FileGetReducer } from "./reducers/fileReducers"
-import {
-  courseEditReducer,
-  courseGetReducer,
-  courseLoadReducer,
-  coursePublishedReducer,
-  coursesLoadReducer,
-  coursesStudentReducer,
-  createCourseReducer,
-  deleteImageReducer,
-  enrollmentCheckReducer,
-  freeEnrollReducer,
-  lessonsListReducer,
-  lessonsPostReducer,
-  paidEnrollReducer,
-  selectVideoReducer,
-  singleCourseReducer,
-  studentCountReducer,
-  uploadImageReducer,
-} from "./reducers/lessonReducers"
+
 import {
   forgotPasswordReducer,
   newInstructorReducer,
@@ -39,31 +19,6 @@ const reducer = combineReducers({
   regSocial: regSocialReducer,
   updateProfile: updateProfileReducer,
   newInstructor: newInstructorReducer,
-
-  //lessons
-  selectVideo: selectVideoReducer,
-  //   createCourse: createCourseReducer,
-  uploadImage: uploadImageReducer,
-  //   deleteImage: deleteImageReducer,
-  coursesLoad: coursesLoadReducer,
-  coursePublished: coursePublishedReducer,
-  courseLoad: courseLoadReducer,
-  singleCourse: singleCourseReducer,
-  paidEnroll: paidEnrollReducer,
-  enrollmentCheck: enrollmentCheckReducer,
-  courseGet: courseGetReducer,
-  //   freeEnroll: freeEnrollReducer,
-  //   courseEdit: courseEditReducer,
-  // lessonsList: lessonsListReducer,
-  //   lessonsPost: lessonsPostReducer,
-  coursesStudent: coursesStudentReducer,
-
-  //   //files
-  fileGet: fileGetReducer,
-  getImage: getImageReducer,
-
-  //instructor
-  studentCount: studentCountReducer,
 })
 
 export default reducer

@@ -2,15 +2,6 @@ import mongoose from "mongoose"
 
 const userSchema = mongoose.Schema(
   {
-    socialId: {
-      type: String,
-      required: false,
-      index: {
-        unique: true,
-        partialFilterExpression: { socialId: { $type: "string" } },
-      },
-      default: null,
-    },
     name: {
       type: String,
       required: true,
@@ -31,38 +22,6 @@ const userSchema = mongoose.Schema(
 
       // select: false,
     },
-    isPassword: {
-      type: Boolean,
-
-      // select: false,
-    },
-
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    resetToken: {
-      type: String,
-      default: "",
-    },
-    role: {
-      type: [String],
-      default: ["user"],
-      enum: ["user", "instructor", "admin", "student"],
-    },
-    isAllowed: {
-      type: Boolean,
-      default: false,
-    },
-
-    stripe_account_id: "",
-    stripe_seller: {},
-    stripeSession: {},
-    passwordResetCode: {
-      data: String,
-      default: "",
-    },
-    courses: [{ type: mongoose.Schema.ObjectId, ref: "Course" }],
   },
   { timestamps: true }
 )

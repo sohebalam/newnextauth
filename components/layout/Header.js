@@ -13,11 +13,9 @@ import AssignmentIcon from "@material-ui/icons/Assignment"
 import { loadUser, socialReg } from "../../redux/actions/userActions"
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
-import MenuButton from "../layout/MenuButton"
-import InstructorMenu from "./InstructorMenu"
-import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople"
 import { Alert } from "@mui/material"
 import { wrapper } from "../../redux/store"
+import ExitToAppIcon from "@mui/icons-material/ExitToApp"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -31,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function Header() {
-  const [socialUser, setSocialUser] = useState(false)
   const { data: session } = useSession()
 
   // console.log(session.user)
@@ -42,43 +39,24 @@ function Header() {
   const { loading, error, dbUser } = profile
 
   useEffect(() => {
-    // if (!dbUser) {
-    //   // if (session) {
-    //   dispatch(loadUser())
-    //   // }
-    // }
     if (session) {
       const { user } = session
 
-      if (!user.email) {
-        setSocialUser(true)
-      }
-
-      const userData = {
-        id: user.id,
-        name: user.name,
-        email: user?.email,
-        password: user?.password,
-      }
       // console.log(dbUser)
-      if (!dbUser) {
-        if (user.id) {
-          dispatch(socialReg(userData))
-          // console.log(userData)
-        }
-      }
-    }
-
-    if (dbUser?.email) {
-      setSocialUser(false)
-    } else if (dbUser?.isPassword === false) {
-      setSocialUser(true)
     }
   }, [session])
 
   const AUser = dbUser || session?.user
 
+  console.log("AUser", AUser)
+
   const classes = useStyles()
+
+  const handleSignout = (e) => {
+    e.preventDefault()
+    signOut()
+    // router.push("/user/login")
+  }
 
   return (
     <div>
@@ -92,57 +70,36 @@ function Header() {
             </IconButton>
 
             <Typography variant="h6" className={classes.title}></Typography>
+            <></>
+            {/* {AUser ? <Typography>{AUser.name}</Typography> : ""} */}
+            {AUser ? (
+              <>
+                {AUser && <Typography>{AUser.name}</Typography>}
 
-            <>
-              {(AUser && AUser.role && AUser.role.includes("instructor")) ||
-              (session?.user &&
-                session?.user.role &&
-                session?.user.role.includes("instructor")) ? (
-                <InstructorMenu dbUser={dbUser} />
-              ) : (
-                AUser &&
-                AUser.isAllowed === true && (
-                  <Link href="/user/instructor/new">
-                    <Button style={{ color: "white" }}>
-                      <EmojiPeopleIcon style={{ marginRight: "0.3rem" }} />
-                      Become Instructor
-                    </Button>
-                  </Link>
-                )
-              )}
-
-              {AUser ? (
-                <>
-                  <div></div>
-
-                  <MenuButton dbUser={AUser} />
-                </>
-              ) : (
-                <>
-                  <Link href="/user/register">
-                    <Button color="inherit">
-                      <AssignmentIcon style={{ marginRight: "0.25rem" }} />
-                      Register
-                    </Button>
-                  </Link>
-                  <Link href="/user/login">
-                    <Button color="inherit">
-                      <PersonIcon style={{ marginRight: "0.25rem" }} />
-                      Login
-                    </Button>
-                  </Link>
-                </>
-              )}
-            </>
+                <Button color="inherit" onClick={handleSignout}>
+                  <ExitToAppIcon />
+                  SignOut
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link href="/user/register">
+                  <Button color="inherit">
+                    <AssignmentIcon style={{ marginRight: "0.25rem" }} />
+                    Register
+                  </Button>
+                </Link>
+                <Link href="/user/login">
+                  <Button color="inherit">
+                    <PersonIcon style={{ marginRight: "0.25rem" }} />
+                    Login
+                  </Button>
+                </Link>
+              </>
+            )}
           </Toolbar>
         </AppBar>
       </div>
-      {socialUser && (
-        <Alert severity="warning">
-          Complete Your Full User Profile click{" "}
-          <Link href="/user/profile">here</Link>
-        </Alert>
-      )}
     </div>
   )
 }
